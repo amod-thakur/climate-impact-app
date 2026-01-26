@@ -407,7 +407,7 @@ DailyEstimate                           # derived, not stored separately
 | Requirement        | How PWA delivers it                                |
 |--------------------|----------------------------------------------------|
 | Offline support    | Service worker caches app shell + 45-item dataset  |
-| Local storage      | IndexedDB via Dexie.js for saved meals             |
+| Local storage      | localStorage for saved meals (~200 KB max)          |
 | No install needed  | Share a URL, works immediately                     |
 | Installable        | Add to home screen on Android + iOS                |
 | No app store fees  | Deploy to GitHub Pages or Vercel (free)             |
@@ -427,8 +427,10 @@ Safari (iOS) can evict IndexedDB data after 7 days of inactivity. We mitigate:
 
 | Layer       | Choice            | Rationale                               |
 |-------------|-------------------|-----------------------------------------|
-| Framework   | React (Vite)      | Fast build, wide ecosystem              |
-| Storage     | Dexie.js          | IndexedDB wrapper, offline-first        |
+| Language    | TypeScript        | Type safety for data model              |
+| Framework   | React 18 (Vite)   | Fast build, wide ecosystem              |
+| State       | useReducer/useState| Built-in React — no Redux needed       |
+| Storage     | localStorage      | Zero deps, sync API, <200 KB data       |
 | Offline     | Workbox           | Service worker tooling                  |
 | Hosting     | Vercel or GH Pages| Free tier, no backend needed            |
 | Styling     | Tailwind CSS      | Rapid prototyping                       |
