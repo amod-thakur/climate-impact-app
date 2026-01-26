@@ -6,7 +6,7 @@ function SettingsPage() {
         Backup, restore, and data sources.
       </p>
     </div>
-  );
+  )
 }
 
-export default SettingsPage;
+export default SettingsPage

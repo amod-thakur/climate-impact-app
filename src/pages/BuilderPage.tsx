@@ -6,7 +6,7 @@ function BuilderPage() {
         Construct a meal and see its carbon footprint.
       </p>
     </div>
-  );
+  )
 }
 
-export default BuilderPage;
+export default BuilderPage

@@ -3,6 +3,7 @@
 ## Design Principles
 
 ### SOLID
+
 - **Single Responsibility**: Each module/component has one clear purpose. Hooks manage state, utils handle calculations, components render UI.
 - **Open/Closed**: Components accept props for extension; data layer uses generic hooks (`useLocalStorage<T>`) for new storage keys without modification.
 - **Liskov Substitution**: All `FoodItem` variants (veg, grains, protein) satisfy the same interface — no special-casing by type.
@@ -10,12 +11,14 @@
 - **Dependency Inversion**: Business logic (utils, hooks) depends on TypeScript interfaces, not concrete implementations. Components consume hooks, not raw `localStorage` calls.
 
 ### Code Quality Standards
-- **Readability**: Self-documenting function names, explicit types, no abbreviations. Comments explain *why*, not *what*.
+
+- **Readability**: Self-documenting function names, explicit types, no abbreviations. Comments explain _why_, not _what_.
 - **Maintainability**: Flat module structure, co-located tests, single source of truth for types (`src/types.ts`).
 - **Scalability**: Static data as a typed module (swappable for API later). Storage behind a hook abstraction (swappable for IndexedDB later).
 - **Extensibility**: Adding a new food item = one object in `foods.ts`. Adding a new route = one entry in the router config.
 
 ### Security
+
 - No `dangerouslySetInnerHTML` usage
 - JSON import validates schema before writing to localStorage (no arbitrary code execution)
 - All external links use `rel="noopener noreferrer"` with `target="_blank"`
@@ -24,6 +27,7 @@
 - Data source URLs are hardcoded constants (not user-editable)
 
 ### Performance
+
 - No memory leaks: cleanup in `useEffect` return functions, no orphaned event listeners
 - No excessive re-renders: memoize derived state, use `React.memo` only where measured
 - Lazy-load Recharts (only on `/history` route)
@@ -32,6 +36,7 @@
 - Bundle budget: < 70 KB gzipped critical path
 
 ### Responsiveness
+
 - Mobile-first design (Tailwind `sm:`, `md:`, `lg:` breakpoints)
 - Touch targets >= 44x44px (WCAG)
 - No horizontal scroll at 320px viewport width
@@ -43,11 +48,13 @@
 ## Testing Strategy
 
 ### Philosophy
+
 - **TDD**: Write failing tests first, then implement to pass
 - **No mocks for unit tests**: Test real logic with real data structures
 - **Three layers**: Unit → Integration → E2E
 
 ### Unit Tests
+
 - **Scope**: Individual functions, hooks, and pure components in isolation
 - **Tools**: Vitest + React Testing Library
 - **Pattern**: `*.test.ts` / `*.test.tsx` co-located with source files
@@ -56,6 +63,7 @@
 - Test edge cases: empty arrays, boundary values (0.5 and 5 portions), invalid JSON
 
 ### Integration Tests
+
 - **Scope**: Multi-component interactions and user flows
 - **Tools**: Vitest + React Testing Library with `@testing-library/user-event`
 - **Flows tested**:
@@ -67,6 +75,7 @@
 - Use `localStorage` directly (not mocked) via jsdom environment
 
 ### E2E Tests
+
 - **Scope**: Full app flows in a real browser
 - **Tools**: Playwright
 - **Flows**: Critical path — onboarding → explore → build → save → history
@@ -74,6 +83,7 @@
 - **Run**: Before merge to main branch
 
 ### Test Naming Convention
+
 ```
 describe('[ModuleName]', () => {
   it('should [expected behavior] when [condition]', () => {
@@ -87,12 +97,15 @@ describe('[ModuleName]', () => {
 ## Branching Strategy
 
 ### Branch Naming
+
 ```
 claude/<ticket-id>-<short-description>-<session-id>
 ```
+
 Example: `claude/t-01-scaffold-vite-react-ts-ccHIG`
 
 ### Workflow
+
 1. Create a feature branch from the default development branch
 2. Implement the ticket on the feature branch
 3. Write and pass all tests on the feature branch
@@ -101,11 +114,13 @@ Example: `claude/t-01-scaffold-vite-react-ts-ccHIG`
 6. Delete the feature branch after merge
 
 ### Default Development Branch
+
 ```
 claude/implement-foundation-epic-ccHIG
 ```
 
 ### Rules
+
 - One branch per ticket
 - No direct commits to the default branch (merge only)
 - Each branch must pass all tests independently before merge
@@ -140,7 +155,9 @@ src/
 ```
 
 ### Co-located Tests
+
 Tests live next to their source files:
+
 ```
 src/hooks/useLocalStorage.ts
 src/hooks/useLocalStorage.test.ts
@@ -152,21 +169,21 @@ src/utils/equivalents.test.ts
 
 ## Tech Stack
 
-| Layer       | Choice             | Version |
-|-------------|--------------------|---------|
-| Language    | TypeScript         | 5.x     |
-| Framework   | React              | 18.x    |
-| Bundler     | Vite               | 6.x     |
-| Styling     | Tailwind CSS       | 4.x     |
-| Routing     | React Router       | 7.x     |
-| State       | useReducer/useState| built-in|
-| Persistence | localStorage       | built-in|
-| Charts      | Recharts           | 2.x     |
-| Testing     | Vitest + RTL       | latest  |
-| E2E Testing | Playwright         | latest  |
-| PWA         | vite-plugin-pwa    | latest  |
-| Linting     | ESLint             | 9.x     |
-| Formatting  | Prettier           | 3.x     |
+| Layer       | Choice              | Version  |
+| ----------- | ------------------- | -------- |
+| Language    | TypeScript          | 5.x      |
+| Framework   | React               | 18.x     |
+| Bundler     | Vite                | 6.x      |
+| Styling     | Tailwind CSS        | 4.x      |
+| Routing     | React Router        | 7.x      |
+| State       | useReducer/useState | built-in |
+| Persistence | localStorage        | built-in |
+| Charts      | Recharts            | 2.x      |
+| Testing     | Vitest + RTL        | latest   |
+| E2E Testing | Playwright          | latest   |
+| PWA         | vite-plugin-pwa     | latest   |
+| Linting     | ESLint              | 9.x      |
+| Formatting  | Prettier            | 3.x      |
 
 ---
 
@@ -180,6 +197,7 @@ T-XX: <imperative verb> <what changed>
 ```
 
 Examples:
+
 ```
 T-01: Scaffold Vite + React + TypeScript project
 

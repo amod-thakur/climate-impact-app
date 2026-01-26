@@ -1,8 +1,8 @@
-import { Switch, Route, Redirect } from 'wouter';
-import ExplorerPage from './pages/ExplorerPage';
-import BuilderPage from './pages/BuilderPage';
-import HistoryPage from './pages/HistoryPage';
-import SettingsPage from './pages/SettingsPage';
+import { Switch, Route, Redirect } from 'wouter'
+import ExplorerPage from './pages/ExplorerPage'
+import BuilderPage from './pages/BuilderPage'
+import HistoryPage from './pages/HistoryPage'
+import SettingsPage from './pages/SettingsPage'
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
         <Redirect to="/" />
       </Route>
     </Switch>
-  );
+  )
 }
 
-export default App;
+export default App
