@@ -47,7 +47,7 @@ describe('useLocalStorage', () => {
   })
 
   it('handles complex objects', () => {
-    const initial = { meals: [], version: 1 }
+    const initial: { meals: { id: string }[]; version: number } = { meals: [], version: 1 }
     const { result } = renderHook(() => useLocalStorage('data', initial))
 
     const updated = { meals: [{ id: '1' }], version: 2 }
