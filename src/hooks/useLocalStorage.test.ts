@@ -1,4 +1,4 @@
-import { describe, expect, it, beforeEach, vi } from 'vitest'
+import { describe, expect, it, beforeEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useLocalStorage } from './useLocalStorage'
 
