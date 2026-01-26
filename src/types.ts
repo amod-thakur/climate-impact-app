@@ -75,6 +75,18 @@ export interface Meal {
   driving_km_equivalent: number
 }
 
+/** A swap suggestion identifying a lower-emission alternative. */
+export interface SwapSuggestion {
+  /** The high-emission item currently in the meal. */
+  current_item: FoodItem
+  /** The lower-emission alternative in the same category. */
+  suggested_item: FoodItem
+  /** CO2e savings in kg if the swap is made (for 1 portion). */
+  co2e_saved: number
+  /** Driving km equivalent of the savings. */
+  driving_km_saved: number
+}
+
 /**
  * Aggregated view of all meals saved for a single day.
  *
