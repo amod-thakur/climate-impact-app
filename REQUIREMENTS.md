@@ -12,25 +12,26 @@ can't make informed choices — even when they want to.
 **Primary persona:** Climate-curious Canadians who already care about the
 environment but don't know where food ranks or which swaps matter most. They
 are not dietitians. They are not scientists. They want a quick, credible answer
-to: *"How does what I eat affect the climate?"*
+to: _"How does what I eat affect the climate?"_
 
 **Not for (in MVP):** Professional dietitians, institutional meal planners,
 anyone seeking precise caloric/nutritional tracking.
 
 ### What does success look like?
 
-| Metric                         | Target (MVP)                           |
-|--------------------------------|----------------------------------------|
-| Time to first insight          | < 30 seconds from opening the app      |
-| Core question answered         | "Which of my foods has the biggest impact?" |
-| Return usage                   | User saves at least 3 daily estimates in first week |
-| Trust                          | User can trace every number to a cited source |
+| Metric                 | Target (MVP)                                        |
+| ---------------------- | --------------------------------------------------- |
+| Time to first insight  | < 30 seconds from opening the app                   |
+| Core question answered | "Which of my foods has the biggest impact?"         |
+| Return usage           | User saves at least 3 daily estimates in first week |
+| Trust                  | User can trace every number to a cited source       |
 
 ---
 
 ## 2. Core Concept: Meal Estimator (not Daily Tracker)
 
 The previous design tried to be a **daily food diary**. That requires:
+
 - Complete food coverage (20 items isn't enough for a real day)
 - Habit formation (logging every meal)
 - Accuracy expectations (users expect totals to be "right")
@@ -52,13 +53,13 @@ sorted by emissions    select items + qty      with real-world comparison
 
 ### Why this works better
 
-| Problem with v1              | How v2 fixes it                              |
-|------------------------------|----------------------------------------------|
-| 20 items too few for logging | 45 items covers ~80% of typical Canadian meals |
-| Users expect complete tracking | Framed as "estimate" — incomplete is expected |
-| No value until you log a full day | Value in 30 seconds via Explorer mode       |
-| Abstract numbers (0.045 kg?) | Real-world equivalents on every screen        |
-| Global emission data for CA app | Canadian-specific data where available        |
+| Problem with v1                   | How v2 fixes it                                |
+| --------------------------------- | ---------------------------------------------- |
+| 20 items too few for logging      | 45 items covers ~80% of typical Canadian meals |
+| Users expect complete tracking    | Framed as "estimate" — incomplete is expected  |
+| No value until you log a full day | Value in 30 seconds via Explorer mode          |
+| Abstract numbers (0.045 kg?)      | Real-world equivalents on every screen         |
+| Global emission data for CA app   | Canadian-specific data where available         |
 
 ---
 
@@ -82,6 +83,7 @@ The 2019 Canada Food Guide uses a **plate proportion model** (no serving counts)
 ```
 
 **CFG principles applied in this app:**
+
 - Choose plant-based protein foods more often
 - Eat plenty of vegetables and fruits
 - Choose whole grain foods
@@ -99,20 +101,20 @@ it to be used.
 
 Based on Health Canada Reference Amounts (2007 guide / CFIA Schedule M):
 
-| Category              | One Portion                                   |
-|-----------------------|-----------------------------------------------|
-| Vegetables (cooked)   | 125 mL (½ cup)                                |
-| Vegetables (raw/leafy)| 250 mL (1 cup)                                |
-| Fruit                 | 1 medium piece, or 125 mL (½ cup)             |
-| Whole grains (cooked) | 125 mL (½ cup) cooked, or 1 slice bread (35 g)|
-| Meat / Fish / Poultry | 75 g (2.5 oz) cooked                          |
-| Legumes (cooked)      | 175 mL (¾ cup)                                |
-| Tofu                  | 150 g (¾ cup)                                 |
-| Eggs                  | 2 large                                       |
-| Nuts / Seeds          | 60 mL (¼ cup, ~30 g)                          |
-| Dairy (milk)          | 250 mL (1 cup)                                |
-| Dairy (cheese)        | 50 g (1.5 oz)                                 |
-| Dairy (yogurt)        | 175 g (¾ cup)                                 |
+| Category               | One Portion                                    |
+| ---------------------- | ---------------------------------------------- |
+| Vegetables (cooked)    | 125 mL (½ cup)                                 |
+| Vegetables (raw/leafy) | 250 mL (1 cup)                                 |
+| Fruit                  | 1 medium piece, or 125 mL (½ cup)              |
+| Whole grains (cooked)  | 125 mL (½ cup) cooked, or 1 slice bread (35 g) |
+| Meat / Fish / Poultry  | 75 g (2.5 oz) cooked                           |
+| Legumes (cooked)       | 175 mL (¾ cup)                                 |
+| Tofu                   | 150 g (¾ cup)                                  |
+| Eggs                   | 2 large                                        |
+| Nuts / Seeds           | 60 mL (¼ cup, ~30 g)                           |
+| Dairy (milk)           | 250 mL (1 cup)                                 |
+| Dairy (cheese)         | 50 g (1.5 oz)                                  |
+| Dairy (yogurt)         | 175 g (¾ cup)                                  |
 
 ---
 
@@ -124,11 +126,11 @@ The previous version used only global averages, which **overstate Canadian beef
 by 2-3x** and don't reflect Canadian agricultural practices. This version uses
 a layered approach:
 
-| Priority | Source                                        | Used For              |
-|----------|-----------------------------------------------|-----------------------|
-| 1st      | Canadian LCA studies (AAFC, CFC, EFC, Holos)  | Beef, chicken, pork, eggs, dairy |
-| 2nd      | Poore & Nemecek 2018 (global averages)         | Plant foods, fish, tofu |
-| Fallback | Informed estimates based on similar items      | Clearly marked         |
+| Priority | Source                                       | Used For                         |
+| -------- | -------------------------------------------- | -------------------------------- |
+| 1st      | Canadian LCA studies (AAFC, CFC, EFC, Holos) | Beef, chicken, pork, eggs, dairy |
+| 2nd      | Poore & Nemecek 2018 (global averages)       | Plant foods, fish, tofu          |
+| Fallback | Informed estimates based on similar items    | Clearly marked                   |
 
 Every item displays its data source so users can verify.
 
@@ -142,61 +144,61 @@ weight). This matches what users buy at the store.
 
 Source: Poore & Nemecek 2018 (no Canadian-specific LCA available for most produce)
 
-| #  | Item           | Portion (CA)       | Wt (g) | CO2e/kg | CO2e/portion | Dominant GHG    | Source |
-|----|----------------|--------------------|--------|---------|--------------|-----------------|--------|
-| 1  | Potatoes       | 1 medium           | 150    | 0.2     | 0.030        | CO2             | P&N    |
-| 2  | Onions         | 1 medium           | 110    | 0.3     | 0.033        | CO2             | P&N    |
-| 3  | Carrots        | 125 mL chopped     | 80     | 0.2     | 0.016        | CO2             | P&N    |
-| 4  | Cabbage        | 125 mL shredded    | 75     | 0.3     | 0.023        | CO2             | P&N    |
-| 5  | Lettuce        | 250 mL (1 cup)     | 55     | 0.4     | 0.022        | CO2             | P&N    |
-| 6  | Spinach/Kale   | 125 mL cooked      | 90     | 0.5     | 0.045        | N2O             | P&N    |
-| 7  | Broccoli       | 125 mL chopped     | 80     | 0.6     | 0.048        | N2O             | P&N    |
-| 8  | Peppers        | 1 medium           | 120    | 0.5     | 0.060        | CO2             | P&N    |
-| 9  | Tomatoes       | 1 medium           | 125    | 1.0     | 0.125        | CO2             | P&N    |
-| 10 | Corn           | 1 medium cob       | 150    | 0.7     | 0.105        | N2O             | P&N    |
-| 11 | Peas (green)   | 125 mL             | 80     | 0.4     | 0.032        | N2O             | P&N    |
-| 12 | Apples         | 1 medium           | 180    | 0.4     | 0.072        | CO2             | P&N    |
-| 13 | Bananas        | 1 medium           | 120    | 0.7     | 0.084        | CO2             | P&N    |
-| 14 | Blueberries    | 125 mL             | 75     | 0.7     | 0.053        | CO2             | P&N    |
-| 15 | Oranges        | 1 medium           | 130    | 0.3     | 0.039        | CO2             | P&N    |
+| #   | Item         | Portion (CA)    | Wt (g) | CO2e/kg | CO2e/portion | Dominant GHG | Source |
+| --- | ------------ | --------------- | ------ | ------- | ------------ | ------------ | ------ |
+| 1   | Potatoes     | 1 medium        | 150    | 0.2     | 0.030        | CO2          | P&N    |
+| 2   | Onions       | 1 medium        | 110    | 0.3     | 0.033        | CO2          | P&N    |
+| 3   | Carrots      | 125 mL chopped  | 80     | 0.2     | 0.016        | CO2          | P&N    |
+| 4   | Cabbage      | 125 mL shredded | 75     | 0.3     | 0.023        | CO2          | P&N    |
+| 5   | Lettuce      | 250 mL (1 cup)  | 55     | 0.4     | 0.022        | CO2          | P&N    |
+| 6   | Spinach/Kale | 125 mL cooked   | 90     | 0.5     | 0.045        | N2O          | P&N    |
+| 7   | Broccoli     | 125 mL chopped  | 80     | 0.6     | 0.048        | N2O          | P&N    |
+| 8   | Peppers      | 1 medium        | 120    | 0.5     | 0.060        | CO2          | P&N    |
+| 9   | Tomatoes     | 1 medium        | 125    | 1.0     | 0.125        | CO2          | P&N    |
+| 10  | Corn         | 1 medium cob    | 150    | 0.7     | 0.105        | N2O          | P&N    |
+| 11  | Peas (green) | 125 mL          | 80     | 0.4     | 0.032        | N2O          | P&N    |
+| 12  | Apples       | 1 medium        | 180    | 0.4     | 0.072        | CO2          | P&N    |
+| 13  | Bananas      | 1 medium        | 120    | 0.7     | 0.084        | CO2          | P&N    |
+| 14  | Blueberries  | 125 mL          | 75     | 0.7     | 0.053        | CO2          | P&N    |
+| 15  | Oranges      | 1 medium        | 130    | 0.3     | 0.039        | CO2          | P&N    |
 
 ### 5b. Whole Grain Foods — 7 Items
 
-| #  | Item              | Portion (CA)       | Wt (g) | CO2e/kg | CO2e/portion | Dominant GHG    | Source |
-|----|-------------------|--------------------|--------|---------|--------------|-----------------|--------|
-| 16 | Oats              | 175 mL cooked      | 30 dry | 0.6     | 0.018        | N2O             | P&N    |
-| 17 | Barley            | 125 mL cooked      | 45 dry | 0.6     | 0.027        | N2O             | P&N    |
-| 18 | Quinoa            | 125 mL cooked      | 45 dry | 0.8     | 0.036        | CO2             | P&N    |
-| 19 | Whole Wheat Bread | 1 slice            | 35     | 1.4     | 0.049        | N2O             | P&N    |
-| 20 | Pasta (whole grain)| 125 mL cooked     | 50 dry | 1.2     | 0.060        | N2O             | P&N    |
-| 21 | Corn Tortilla     | 1 medium           | 30     | 0.7     | 0.021        | N2O             | P&N    |
-| 22 | Brown Rice        | 125 mL cooked      | 65 dry | 3.0     | 0.195        | **CH4**         | P&N    |
+| #   | Item                | Portion (CA)  | Wt (g) | CO2e/kg | CO2e/portion | Dominant GHG | Source |
+| --- | ------------------- | ------------- | ------ | ------- | ------------ | ------------ | ------ |
+| 16  | Oats                | 175 mL cooked | 30 dry | 0.6     | 0.018        | N2O          | P&N    |
+| 17  | Barley              | 125 mL cooked | 45 dry | 0.6     | 0.027        | N2O          | P&N    |
+| 18  | Quinoa              | 125 mL cooked | 45 dry | 0.8     | 0.036        | CO2          | P&N    |
+| 19  | Whole Wheat Bread   | 1 slice       | 35     | 1.4     | 0.049        | N2O          | P&N    |
+| 20  | Pasta (whole grain) | 125 mL cooked | 50 dry | 1.2     | 0.060        | N2O          | P&N    |
+| 21  | Corn Tortilla       | 1 medium      | 30     | 0.7     | 0.021        | N2O          | P&N    |
+| 22  | Brown Rice          | 125 mL cooked | 65 dry | 3.0     | 0.195        | **CH4**      | P&N    |
 
 ### 5c. Protein Foods — 23 Items
 
 #### Plant-Based Protein
 
-| #  | Item            | Portion (CA)       | Wt (g) | CO2e/kg | CO2e/portion | Dominant GHG    | Source |
-|----|-----------------|--------------------|--------|---------|--------------|-----------------|--------|
-| 23 | Lentils         | 175 mL cooked      | 75 dry | 0.9     | 0.068        | N2O             | P&N    |
-| 24 | Black Beans     | 175 mL cooked      | 75 dry | 1.0     | 0.075        | N2O             | P&N    |
-| 25 | Chickpeas       | 175 mL cooked      | 75 dry | 1.0     | 0.075        | N2O             | P&N    |
-| 26 | Tofu            | 150 g              | 150    | 3.2     | 0.480        | CO2             | P&N    |
-| 27 | Peanut Butter   | 30 mL (2 tbsp)     | 32     | 2.5     | 0.080        | CO2             | P&N    |
-| 28 | Almonds         | 60 mL              | 30     | 0.4     | 0.012        | CO2             | P&N    |
-| 29 | Seeds (mixed)   | 60 mL              | 30     | 0.5     | 0.015        | CO2             | P&N    |
+| #   | Item          | Portion (CA)   | Wt (g) | CO2e/kg | CO2e/portion | Dominant GHG | Source |
+| --- | ------------- | -------------- | ------ | ------- | ------------ | ------------ | ------ |
+| 23  | Lentils       | 175 mL cooked  | 75 dry | 0.9     | 0.068        | N2O          | P&N    |
+| 24  | Black Beans   | 175 mL cooked  | 75 dry | 1.0     | 0.075        | N2O          | P&N    |
+| 25  | Chickpeas     | 175 mL cooked  | 75 dry | 1.0     | 0.075        | N2O          | P&N    |
+| 26  | Tofu          | 150 g          | 150    | 3.2     | 0.480        | CO2          | P&N    |
+| 27  | Peanut Butter | 30 mL (2 tbsp) | 32     | 2.5     | 0.080        | CO2          | P&N    |
+| 28  | Almonds       | 60 mL          | 30     | 0.4     | 0.012        | CO2          | P&N    |
+| 29  | Seeds (mixed) | 60 mL          | 30     | 0.5     | 0.015        | CO2          | P&N    |
 
 #### Animal Protein — Canadian-Specific Data
 
-| #  | Item            | Portion (CA)       | Wt (g) | CO2e/kg | CO2e/portion | Dominant GHG    | Source        |
-|----|-----------------|--------------------|--------|---------|--------------|-----------------|---------------|
-| 30 | Chicken         | 75 g cooked        | 100 raw| 2.2     | 0.220        | CO2, N2O        | CFC LCA 2023  |
-| 31 | Turkey          | 75 g cooked        | 100 raw| 3.0     | 0.300        | CO2, N2O        | P&N (est.)    |
-| 32 | Pork            | 75 g cooked        | 100 raw| 3.5     | 0.350        | CO2, N2O        | CA Pork LCA   |
-| 33 | Eggs            | 2 large            | 100    | 2.4     | 0.240        | CO2, N2O        | EFC LCA 2022  |
-| 34 | Salmon (farmed) | 75 g cooked        | 100 raw| 12.0    | 1.200        | CO2             | P&N           |
-| 35 | White Fish (cod)| 75 g cooked        | 100 raw| 4.0     | 0.400        | CO2             | P&N           |
-| 36 | Beef            | 75 g cooked        | 100 raw| 26.0    | 2.600        | **CH4**         | NBSA/Holos    |
+| #   | Item             | Portion (CA) | Wt (g)  | CO2e/kg | CO2e/portion | Dominant GHG | Source       |
+| --- | ---------------- | ------------ | ------- | ------- | ------------ | ------------ | ------------ |
+| 30  | Chicken          | 75 g cooked  | 100 raw | 2.2     | 0.220        | CO2, N2O     | CFC LCA 2023 |
+| 31  | Turkey           | 75 g cooked  | 100 raw | 3.0     | 0.300        | CO2, N2O     | P&N (est.)   |
+| 32  | Pork             | 75 g cooked  | 100 raw | 3.5     | 0.350        | CO2, N2O     | CA Pork LCA  |
+| 33  | Eggs             | 2 large      | 100     | 2.4     | 0.240        | CO2, N2O     | EFC LCA 2022 |
+| 34  | Salmon (farmed)  | 75 g cooked  | 100 raw | 12.0    | 1.200        | CO2          | P&N          |
+| 35  | White Fish (cod) | 75 g cooked  | 100 raw | 4.0     | 0.400        | CO2          | P&N          |
+| 36  | Beef             | 75 g cooked  | 100 raw | 26.0    | 2.600        | **CH4**      | NBSA/Holos   |
 
 Note: Meat portions use **100 g raw weight** (yields ~75 g cooked after ~25%
 moisture loss). The emission factor applies to the raw/retail weight. This is
@@ -204,31 +206,31 @@ a correction from v1 which mixed raw and cooked weights.
 
 #### Dairy — Canadian-Specific Data
 
-| #  | Item            | Portion (CA)       | Wt (g) | CO2e/kg | CO2e/portion | Dominant GHG    | Source         |
-|----|-----------------|--------------------|--------|---------|--------------|-----------------|----------------|
-| 37 | Milk (2%)       | 250 mL             | 258    | 1.0     | 0.258        | CH4             | CA Dairy LCA   |
-| 38 | Yogurt          | 175 g              | 175    | 1.4     | 0.245        | CH4             | CA Dairy LCA   |
-| 39 | Cheddar Cheese  | 50 g               | 50     | 5.3     | 0.265        | CH4             | CA Dairy LCA   |
-| 40 | Butter          | 15 mL (1 tbsp)     | 14     | 7.3     | 0.102        | CH4             | CA Dairy LCA   |
+| #   | Item           | Portion (CA)   | Wt (g) | CO2e/kg | CO2e/portion | Dominant GHG | Source       |
+| --- | -------------- | -------------- | ------ | ------- | ------------ | ------------ | ------------ |
+| 37  | Milk (2%)      | 250 mL         | 258    | 1.0     | 0.258        | CH4          | CA Dairy LCA |
+| 38  | Yogurt         | 175 g          | 175    | 1.4     | 0.245        | CH4          | CA Dairy LCA |
+| 39  | Cheddar Cheese | 50 g           | 50     | 5.3     | 0.265        | CH4          | CA Dairy LCA |
+| 40  | Butter         | 15 mL (1 tbsp) | 14     | 7.3     | 0.102        | CH4          | CA Dairy LCA |
 
 #### Common Additions (frequently used but missing from v1)
 
-| #  | Item               | Portion (CA)       | Wt (g) | CO2e/kg | CO2e/portion | Dominant GHG | Source |
-|----|--------------------|--------------------|--------|---------|--------------|--------------|--------|
-| 41 | Cooking Oil (canola)| 15 mL (1 tbsp)   | 14     | 3.0     | 0.042        | CO2          | P&N    |
-| 42 | Sugar              | 5 mL (1 tsp)      | 4      | 1.2     | 0.005        | CO2          | P&N    |
-| 43 | Soy Milk           | 250 mL             | 258    | 0.7     | 0.181        | CO2          | P&N    |
-| 44 | Maple Syrup        | 15 mL (1 tbsp)     | 20     | 1.3     | 0.026        | CO2          | Est.   |
-| 45 | Coffee (brewed)    | 250 mL (1 cup)     | 250    | 0.06    | 0.015        | CO2          | P&N    |
+| #   | Item                 | Portion (CA)   | Wt (g) | CO2e/kg | CO2e/portion | Dominant GHG | Source |
+| --- | -------------------- | -------------- | ------ | ------- | ------------ | ------------ | ------ |
+| 41  | Cooking Oil (canola) | 15 mL (1 tbsp) | 14     | 3.0     | 0.042        | CO2          | P&N    |
+| 42  | Sugar                | 5 mL (1 tsp)   | 4      | 1.2     | 0.005        | CO2          | P&N    |
+| 43  | Soy Milk             | 250 mL         | 258    | 0.7     | 0.181        | CO2          | P&N    |
+| 44  | Maple Syrup          | 15 mL (1 tbsp) | 20     | 1.3     | 0.026        | CO2          | Est.   |
+| 45  | Coffee (brewed)      | 250 mL (1 cup) | 250    | 0.06    | 0.015        | CO2          | P&N    |
 
 ### Key Corrections from v1
 
-| Item    | v1 (Global Avg) | v2 (Canadian)  | Difference | Why                           |
-|---------|-----------------|----------------|------------|-------------------------------|
-| Beef    | 60.0 kg CO2e/kg | 26.0 kg CO2e/kg| **-57%**   | Canadian cattle practices, no deforestation factor |
-| Chicken | 6.0             | 2.2            | **-63%**   | CFC lifecycle assessment 2023 |
-| Eggs    | 4.5             | 2.4            | **-47%**   | EFC lifecycle assessment 2022 |
-| Pork    | 7.0             | 3.5            | **-50%**   | Canadian pork LCA             |
+| Item    | v1 (Global Avg) | v2 (Canadian)   | Difference | Why                                                |
+| ------- | --------------- | --------------- | ---------- | -------------------------------------------------- |
+| Beef    | 60.0 kg CO2e/kg | 26.0 kg CO2e/kg | **-57%**   | Canadian cattle practices, no deforestation factor |
+| Chicken | 6.0             | 2.2             | **-63%**   | CFC lifecycle assessment 2023                      |
+| Eggs    | 4.5             | 2.4             | **-47%**   | EFC lifecycle assessment 2022                      |
+| Pork    | 7.0             | 3.5             | **-50%**   | Canadian pork LCA                                  |
 
 These are not small differences. Using global averages would have **destroyed
 credibility** with any user who follows Canadian agriculture.
@@ -243,7 +245,7 @@ this, numbers like "0.045 kg CO2e" mean nothing to a normal person.
 ### Equivalence Scale
 
 | CO2e Amount | Equivalent                                           |
-|-------------|------------------------------------------------------|
+| ----------- | ---------------------------------------------------- |
 | 0.05 kg     | Charging your phone for a month                      |
 | 0.25 kg     | Driving 1 km in an average Canadian car              |
 | 1.0 kg      | Driving 4 km                                         |
@@ -338,12 +340,14 @@ Show: "Your highest-impact item is [X] ([X_co2e]).
 ```
 
 **Examples:**
+
 - "Your highest-impact item is Beef (2.6 kg). Swapping to Chicken would save
   2.38 kg — like driving 10 km less."
 - "Your highest-impact item is Brown Rice (0.195 kg). Swapping to Oats would
   save 0.18 kg — like skipping 0.7 km of driving."
 
 **Rules:**
+
 - Only show if the swap saves > 0.1 kg CO2e (skip trivial differences)
 - One suggestion per meal, always the highest-impact swap
 - Neutral tone: "swapping to" not "you should" or "consider"
@@ -391,6 +395,7 @@ DailyEstimate                           # derived, not stored separately
 ```
 
 ### Changes from v1 data model
+
 - **weight_basis** field: eliminates raw vs. cooked ambiguity
 - **data_source / data_source_url**: every number is traceable
 - **sub_category**: enables swap suggestions within category
@@ -404,14 +409,14 @@ DailyEstimate                           # derived, not stored separately
 
 ### Platform: PWA (Progressive Web App)
 
-| Requirement        | How PWA delivers it                                |
-|--------------------|----------------------------------------------------|
-| Offline support    | Service worker caches app shell + 45-item dataset  |
-| Local storage      | localStorage for saved meals (~200 KB max)          |
-| No install needed  | Share a URL, works immediately                     |
-| Installable        | Add to home screen on Android + iOS                |
-| No app store fees  | Deploy to GitHub Pages or Vercel (free)             |
-| Privacy            | All data stays on device                           |
+| Requirement       | How PWA delivers it                               |
+| ----------------- | ------------------------------------------------- |
+| Offline support   | Service worker caches app shell + 45-item dataset |
+| Local storage     | localStorage for saved meals (~200 KB max)        |
+| No install needed | Share a URL, works immediately                    |
+| Installable       | Add to home screen on Android + iOS               |
+| No app store fees | Deploy to GitHub Pages or Vercel (free)           |
+| Privacy           | All data stays on device                          |
 
 ### Data Durability Mitigation
 
@@ -425,30 +430,30 @@ Safari (iOS) can evict IndexedDB data after 7 days of inactivity. We mitigate:
 
 ### Suggested Stack
 
-| Layer       | Choice            | Rationale                               |
-|-------------|-------------------|-----------------------------------------|
-| Language    | TypeScript        | Type safety for data model              |
-| Framework   | React 18 (Vite)   | Fast build, wide ecosystem              |
-| State       | useReducer/useState| Built-in React — no Redux needed       |
-| Storage     | localStorage      | Zero deps, sync API, <200 KB data       |
-| Offline     | Workbox           | Service worker tooling                  |
-| Hosting     | Vercel or GH Pages| Free tier, no backend needed            |
-| Styling     | Tailwind CSS      | Rapid prototyping                       |
-| Charts      | Recharts          | Lightweight, React-native               |
-| Testing     | Vitest + RTL      | Matches Vite ecosystem                  |
+| Layer     | Choice              | Rationale                         |
+| --------- | ------------------- | --------------------------------- |
+| Language  | TypeScript          | Type safety for data model        |
+| Framework | React 18 (Vite)     | Fast build, wide ecosystem        |
+| State     | useReducer/useState | Built-in React — no Redux needed  |
+| Storage   | localStorage        | Zero deps, sync API, <200 KB data |
+| Offline   | Workbox             | Service worker tooling            |
+| Hosting   | Vercel or GH Pages  | Free tier, no backend needed      |
+| Styling   | Tailwind CSS        | Rapid prototyping                 |
+| Charts    | Recharts            | Lightweight, React-native         |
+| Testing   | Vitest + RTL        | Matches Vite ecosystem            |
 
 ---
 
 ## 11. Non-Functional Requirements
 
-| Requirement      | Detail                                                      |
-|------------------|-------------------------------------------------------------|
-| First load       | < 3 seconds on 3G (app shell + data is ~50 KB total)       |
-| Offline          | 100% functional offline after first load                    |
-| Accessibility    | WCAG 2.1 AA — screen reader, keyboard nav, contrast ratios |
-| Privacy          | Zero network requests after initial load (no analytics MVP) |
-| Browser support  | Chrome, Safari, Firefox, Edge (last 2 versions)             |
-| Mobile-first     | Designed for phone screens, usable on desktop               |
+| Requirement     | Detail                                                      |
+| --------------- | ----------------------------------------------------------- |
+| First load      | < 3 seconds on 3G (app shell + data is ~50 KB total)        |
+| Offline         | 100% functional offline after first load                    |
+| Accessibility   | WCAG 2.1 AA — screen reader, keyboard nav, contrast ratios  |
+| Privacy         | Zero network requests after initial load (no analytics MVP) |
+| Browser support | Chrome, Safari, Firefox, Edge (last 2 versions)             |
+| Mobile-first    | Designed for phone screens, usable on desktop               |
 
 ---
 
@@ -472,14 +477,14 @@ Safari (iOS) can evict IndexedDB data after 7 days of inactivity. We mitigate:
 
 If the MVP validates (users return, save 3+ daily estimates in week 1):
 
-| Phase | Feature                              | Why                              |
-|-------|--------------------------------------|----------------------------------|
-| v1.1  | Expand to 100+ food items            | Cover more real meals            |
-| v1.2  | Weekly summary with trends           | Reward consistent users          |
-| v1.3  | "Build a better plate" mode          | Guided CFG-aligned meal building |
-| v2.0  | Nutritional info alongside emissions | Full picture: health + climate   |
+| Phase | Feature                              | Why                                |
+| ----- | ------------------------------------ | ---------------------------------- |
+| v1.1  | Expand to 100+ food items            | Cover more real meals              |
+| v1.2  | Weekly summary with trends           | Reward consistent users            |
+| v1.3  | "Build a better plate" mode          | Guided CFG-aligned meal building   |
+| v2.0  | Nutritional info alongside emissions | Full picture: health + climate     |
 | v2.1  | LLM usage tracker module             | Original vision for multi-category |
-| v3.0  | Cloud sync + accounts (optional)     | Cross-device, long-term history  |
+| v3.0  | Cloud sync + accounts (optional)     | Cross-device, long-term history    |
 
 ---
 
@@ -507,7 +512,7 @@ If the MVP validates (users return, save 3+ daily estimates in week 1):
 ### Global Sources (Priority 2 — Used for Plant Foods)
 
 - **Poore & Nemecek (2018):** "Reducing food's environmental impacts through
-  producers and consumers." *Science*, 360(6392), 987-992.
+  producers and consumers." _Science_, 360(6392), 987-992.
   https://doi.org/10.1126/science.aaq0216
 - **Our World in Data:** GHG emissions per kg of food product (visualization of
   Poore & Nemecek). https://ourworldindata.org/grapher/ghg-per-kg-poore

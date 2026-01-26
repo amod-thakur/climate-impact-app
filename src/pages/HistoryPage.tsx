@@ -6,7 +6,7 @@ function HistoryPage() {
         View your saved daily estimates.
       </p>
     </div>
-  );
+  )
 }
 
-export default HistoryPage;
+export default HistoryPage

@@ -134,14 +134,14 @@
 
 **Rationale:**
 
-| Factor | Redux | React built-in |
-|--------|-------|----------------|
-| State complexity | Overkill — state is a meal array + saved meals | `useReducer` handles meal builder cleanly |
-| Boilerplate | Actions, reducers, store, selectors, types | One reducer, a few hooks |
-| Bundle size | redux + react-redux ≈ 11 KB gzipped | Zero — already in React |
-| Learning curve | Higher for contributors unfamiliar with Redux | Standard React knowledge |
-| DevTools | Redux DevTools (nice but unnecessary here) | React DevTools sufficient |
-| Async side effects | Needs thunks/sagas for async | `useEffect` handles localStorage sync |
+| Factor             | Redux                                          | React built-in                            |
+| ------------------ | ---------------------------------------------- | ----------------------------------------- |
+| State complexity   | Overkill — state is a meal array + saved meals | `useReducer` handles meal builder cleanly |
+| Boilerplate        | Actions, reducers, store, selectors, types     | One reducer, a few hooks                  |
+| Bundle size        | redux + react-redux ≈ 11 KB gzipped            | Zero — already in React                   |
+| Learning curve     | Higher for contributors unfamiliar with Redux  | Standard React knowledge                  |
+| DevTools           | Redux DevTools (nice but unnecessary here)     | React DevTools sufficient                 |
+| Async side effects | Needs thunks/sagas for async                   | `useEffect` handles localStorage sync     |
 
 **State inventory for the entire app:**
 
@@ -179,15 +179,15 @@ React has **no persistence mechanism**. `useState`, `useReducer`, `useContext` a
 in-memory — gone on page refresh. So persistence requires a browser storage API. The
 question is which one.
 
-| Factor | localStorage | IndexedDB (via Dexie.js) |
-|--------|-------------|--------------------------|
-| Data volume for MVP | ~200 KB (well under 5 MB limit) | Same data, same volume |
-| API complexity | `JSON.parse(localStorage.getItem(key))` | Requires Dexie.js wrapper to be usable; raw IndexedDB API is notoriously painful |
-| Dependencies added | **Zero** | Dexie.js ~16 KB gzipped |
-| Synchronous | Yes — fine for <1 MB reads | Async-only (IndexedDB is async) |
-| Structured queries | No, but unnecessary for this data | Yes, but unnecessary for this data |
-| Safari 7-day eviction | **Affected** | **Equally affected** |
-| Migration cost | Negligible (change hook implementation) | — |
+| Factor                | localStorage                            | IndexedDB (via Dexie.js)                                                         |
+| --------------------- | --------------------------------------- | -------------------------------------------------------------------------------- |
+| Data volume for MVP   | ~200 KB (well under 5 MB limit)         | Same data, same volume                                                           |
+| API complexity        | `JSON.parse(localStorage.getItem(key))` | Requires Dexie.js wrapper to be usable; raw IndexedDB API is notoriously painful |
+| Dependencies added    | **Zero**                                | Dexie.js ~16 KB gzipped                                                          |
+| Synchronous           | Yes — fine for <1 MB reads              | Async-only (IndexedDB is async)                                                  |
+| Structured queries    | No, but unnecessary for this data       | Yes, but unnecessary for this data                                               |
+| Safari 7-day eviction | **Affected**                            | **Equally affected**                                                             |
+| Migration cost        | Negligible (change hook implementation) | —                                                                                |
 
 **Critical point on Safari eviction:** The v2 requirements cite Safari's IndexedDB
 eviction policy as a reason for using Dexie.js. This is incorrect — Safari's
@@ -243,11 +243,11 @@ This keeps the storage footprint small and the separation of concerns clean.
 
 **Options:**
 
-| Option | Pros | Cons |
-|--------|------|------|
-| React Router v6 | Industry standard, handles nested routes | ~14 KB gzipped, more than we need |
-| Wouter | 1.3 KB gzipped, hook-based, simple API | Less ecosystem, but sufficient for 4 routes |
-| No router (conditional rendering) | Zero dependencies | No URL state, no back button support, no deep links |
+| Option                            | Pros                                     | Cons                                                |
+| --------------------------------- | ---------------------------------------- | --------------------------------------------------- |
+| React Router v6                   | Industry standard, handles nested routes | ~14 KB gzipped, more than we need                   |
+| Wouter                            | 1.3 KB gzipped, hook-based, simple API   | Less ecosystem, but sufficient for 4 routes         |
+| No router (conditional rendering) | Zero dependencies                        | No URL state, no back button support, no deep links |
 
 **Recommendation:** Use a lightweight router (Wouter or React Router). The app has only
 4 top-level routes, but URL-based navigation matters for:
@@ -473,15 +473,15 @@ Onboarding (R5) is a modal overlay on first visit, not a route.
 
 Target: **< 50 KB gzipped** for first meaningful paint (NFR from requirements).
 
-| Asset | Estimated Size (gzipped) |
-|-------|-------------------------|
-| React + ReactDOM | ~42 KB |
-| Wouter | ~1.3 KB |
-| Tailwind (purged) | ~8 KB |
-| App code + food data | ~10 KB |
-| **Subtotal (critical path)** | **~61 KB** |
-| Recharts (lazy loaded) | ~45 KB (loaded on /history only) |
-| Workbox runtime | ~5 KB |
+| Asset                        | Estimated Size (gzipped)         |
+| ---------------------------- | -------------------------------- |
+| React + ReactDOM             | ~42 KB                           |
+| Wouter                       | ~1.3 KB                          |
+| Tailwind (purged)            | ~8 KB                            |
+| App code + food data         | ~10 KB                           |
+| **Subtotal (critical path)** | **~61 KB**                       |
+| Recharts (lazy loaded)       | ~45 KB (loaded on /history only) |
+| Workbox runtime              | ~5 KB                            |
 
 **Mitigation for the 61 KB critical path exceeding 50 KB target:**
 
@@ -536,15 +536,15 @@ Saved meals are in localStorage. No API calls ever.
 
 ## 8. What This Architecture Does NOT Include (and Why)
 
-| Excluded | Rationale |
-|----------|-----------|
-| Backend / API server | All data is static + local. No user accounts. No server = no cost, no downtime, no security surface. |
-| Database (PostgreSQL, Firebase, etc.) | localStorage handles ~200 KB of user data. No multi-device sync in MVP. |
-| Redux / Zustand / Jotai | State graph is too simple to justify. Two persisted keys + a reducer. |
-| IndexedDB / Dexie.js | localStorage is sufficient for this data volume. Safari eviction affects both equally. |
-| CSS-in-JS (styled-components, Emotion) | Tailwind is faster to prototype, smaller output, no runtime overhead. |
-| Server-side rendering (Next.js) | No SEO needs (it's a tool, not content). Vite SPA is simpler and fully offline. |
-| CI/CD pipeline | Out of scope for architecture doc. Standard Vercel/GH Pages auto-deploy from main branch. |
+| Excluded                               | Rationale                                                                                            |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Backend / API server                   | All data is static + local. No user accounts. No server = no cost, no downtime, no security surface. |
+| Database (PostgreSQL, Firebase, etc.)  | localStorage handles ~200 KB of user data. No multi-device sync in MVP.                              |
+| Redux / Zustand / Jotai                | State graph is too simple to justify. Two persisted keys + a reducer.                                |
+| IndexedDB / Dexie.js                   | localStorage is sufficient for this data volume. Safari eviction affects both equally.               |
+| CSS-in-JS (styled-components, Emotion) | Tailwind is faster to prototype, smaller output, no runtime overhead.                                |
+| Server-side rendering (Next.js)        | No SEO needs (it's a tool, not content). Vite SPA is simpler and fully offline.                      |
+| CI/CD pipeline                         | Out of scope for architecture doc. Standard Vercel/GH Pages auto-deploy from main branch.            |
 
 ---
 
@@ -553,13 +553,13 @@ Saved meals are in localStorage. No API calls ever.
 These are not planned work — they're architectural escape hatches to confirm we're not
 painting ourselves into a corner.
 
-| If we need... | Migration path | Effort |
-|---------------|---------------|--------|
-| More than 5 MB storage | Swap `useLocalStorage` internals to IndexedDB (Dexie.js). App code unchanged — only the hook changes. | Low |
-| Global state sharing | Add a `MealsContext` provider wrapping the app. No library needed. | Low |
-| Smaller bundle | Alias React → Preact via Vite config (`@preact/compat`). Zero code changes. | Low |
-| Cloud sync | Add Supabase or Firebase with a sync layer. Requires auth. Major feature. | High |
-| Server rendering / SEO | Migrate to Next.js or Remix. Significant restructuring. | High |
+| If we need...          | Migration path                                                                                        | Effort |
+| ---------------------- | ----------------------------------------------------------------------------------------------------- | ------ |
+| More than 5 MB storage | Swap `useLocalStorage` internals to IndexedDB (Dexie.js). App code unchanged — only the hook changes. | Low    |
+| Global state sharing   | Add a `MealsContext` provider wrapping the app. No library needed.                                    | Low    |
+| Smaller bundle         | Alias React → Preact via Vite config (`@preact/compat`). Zero code changes.                           | Low    |
+| Cloud sync             | Add Supabase or Firebase with a sync layer. Requires auth. Major feature.                             | High   |
+| Server rendering / SEO | Migrate to Next.js or Remix. Significant restructuring.                                               | High   |
 
 None of these migrations require rewriting the component tree, data model, or business
 logic. The architecture is intentionally decoupled at the boundaries (hooks for storage,

@@ -6,7 +6,7 @@ function ExplorerPage() {
         Browse 45 common foods and their carbon footprint.
       </p>
     </div>
-  );
+  )
 }
 
-export default ExplorerPage;
+export default ExplorerPage
