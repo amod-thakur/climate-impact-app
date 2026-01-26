@@ -1,11 +1,20 @@
+import { Switch, Route, Redirect } from 'wouter';
+import ExplorerPage from './pages/ExplorerPage';
+import BuilderPage from './pages/BuilderPage';
+import HistoryPage from './pages/HistoryPage';
+import SettingsPage from './pages/SettingsPage';
+
 function App() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-4">
-      <h1 className="text-3xl font-bold text-primary">CO2 Food Tracker</h1>
-      <p className="mt-2 text-text-secondary">
-        Understand the carbon footprint of your food
-      </p>
-    </div>
+    <Switch>
+      <Route path="/" component={ExplorerPage} />
+      <Route path="/build" component={BuilderPage} />
+      <Route path="/history" component={HistoryPage} />
+      <Route path="/settings" component={SettingsPage} />
+      <Route>
+        <Redirect to="/" />
+      </Route>
+    </Switch>
   );
 }
 
