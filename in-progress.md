@@ -1,8 +1,8 @@
 # CO2 Food Tracker — In-Progress Status
 
-**Branch:** `claude/implement-core-features-epic4-r46i3`
+**Branch:** `claude/implement-settings-durability-pr4Ej`
 **Last updated:** 2026-01-27
-**Last commit:** `989cd47` — T-16..T-20: Implement Epic 4 core features (R1–R5)
+**Last commit:** `2a065fe` — T-21..T-24: Implement Epic 5 Settings & Data Durability
 
 ---
 
@@ -36,45 +36,15 @@
 - **T-19 — History page** (`src/pages/HistoryPage.tsx`): Daily estimates list (newest first), expandable day details, lazy-loaded Recharts line chart with 7/30 day toggle, Canadian average reference line (3.98 kg CO2e/day)
 - **T-20 — Onboarding modal** (`src/components/OnboardingModal.tsx`): First-visit modal with 4 key messages, focus trap, Escape/background click dismiss, "Start Exploring" button
 
+### Epic 5: Settings & Data Durability (T-21 through T-24) — DONE
+- **T-21 — Settings page layout** (`src/pages/SettingsPage.tsx`): Backup, Restore, Storage, About/Sources sections; all 11 data sources from REQUIREMENTS.md §14 linked (target=_blank); app version displayed
+- **T-22 — JSON export** (in SettingsPage): "Export my data" button; uses `exportData()` + `triggerDownload()` from backup.ts; file named `co2-tracker-backup-YYYY-MM-DD.json`; confirmation message on success
+- **T-23 — JSON import** (in SettingsPage): File picker (`.json`); `parseBackup()` validates and previews (meal count, date count, export date); merge-with-existing vs replace-existing options; error handling for invalid files; added `mergeData()` to backup.ts for deduplication by meal id
+- **T-24 — Storage persistence** (in SettingsPage): `navigator.storage.persist()` called on first launch via `useStoragePersistence` hook; dismissible warning banner if denied; `storage_persisted` and `storage_banner_dismissed` flags in localStorage; handles browsers without `persist()` support
+
 ---
 
 ## Remaining Work
-
-### Epic 5: Settings & Data Durability (T-21 through T-24)
-
-#### T-21 · Settings page layout — P1
-**File:** `src/pages/SettingsPage.tsx` (currently a placeholder)
-**What to do:**
-- Build sections: Backup, Storage, About/Sources
-- Link to all data sources from REQUIREMENTS.md §14 (open in new tab)
-- Display app version
-- The page shell exists but only has a title and subtitle
-
-#### T-22 · JSON export (backup) — P1
-**Dependencies:** T-10 (done), T-21
-**What to do:**
-- Add "Export my data" button on Settings page
-- Use existing `exportData()` and `triggerDownload()` from `src/utils/backup.ts`
-- File named `co2-tracker-backup-YYYY-MM-DD.json`
-- Functions already exist — this is primarily UI wiring
-
-#### T-23 · JSON import (restore) — P1
-**Dependencies:** T-10 (done), T-21
-**What to do:**
-- Add "Import data" file input on Settings page accepting `.json`
-- Use existing `importData()` from `src/utils/backup.ts`
-- Show preview: "This backup contains X meals from Y dates. Import?"
-- Handle invalid file with clear error message
-- Ask whether to merge with or replace existing data
-- Note: current `importData()` replaces only — merge logic needs to be added
-
-#### T-24 · Storage persistence request + warning — P2
-**Dependencies:** T-08 (done)
-**What to do:**
-- Call `navigator.storage.persist()` on first launch
-- If denied: show dismissible banner about using Export for backup
-- Store `storage_persisted` flag in localStorage
-- Handle browsers without `persist()` support
 
 ### Epic 6: PWA & Offline (T-25 through T-27)
 
@@ -153,7 +123,7 @@ src/
 - Vitest 4.0 + @testing-library/react 16.3
 
 ### Test Status
-- 139 tests passing across 13 test files
+- 169 tests passing across 14 test files
 - `npm run lint` — clean
 - `npm run build` — clean (2 chunks, HistoryChart in separate chunk)
 
@@ -162,18 +132,21 @@ src/
 |-----|------|---------|
 | `co2-tracker-meals` | `Meal[]` | All saved meal estimates |
 | `onboarding_seen` | `boolean` | Whether onboarding modal was dismissed |
+| `storage_persisted` | `boolean` | Whether `navigator.storage.persist()` was granted |
+| `storage_banner_dismissed` | `boolean` | Whether user dismissed the storage warning banner |
 
-### Existing Utility Functions (ready to use for Epic 5)
+### Backup Utility Functions (`src/utils/backup.ts`)
 - `exportData(): string` — exports all meals as JSON string
-- `importData(json: string): boolean` — validates and imports backup JSON
+- `parseBackup(json: string): BackupPreview | null` — validates and returns preview info (meal count, date count)
+- `importData(json: string): boolean` — validates and imports backup JSON (replace mode)
+- `mergeData(json: string): boolean` — validates and merges backup with existing data (dedup by meal id)
 - `triggerDownload(json: string, filename: string): void` — triggers browser file download
 
 ---
 
 ## Notes for Next Session
-1. **Start with Epic 5** (T-21 → T-22 + T-23 → T-24) — Settings page + backup/restore
-2. `src/utils/backup.ts` already has export/import/download functions — T-22 and T-23 are mostly UI work
-3. T-23 requires adding **merge vs replace** logic to `importData()` — current implementation only replaces
-4. SettingsPage is a placeholder at `src/pages/SettingsPage.tsx` — needs full implementation
-5. After Epic 5, proceed to Epic 6 (PWA) then Epic 7 (Quality)
-6. REQUIREMENTS.md §14 has the full list of data sources to link from Settings page
+1. **Start with Epic 6** (T-25 → T-26 → T-27) — PWA & Offline
+2. Epic 5 is fully complete — Settings page, backup/restore, storage persistence all implemented and tested
+3. After Epic 6, proceed to Epic 7 (Quality & Polish)
+4. `vite-plugin-pwa` needs to be installed for T-25
+5. Placeholder icons (192x192, 512x512) needed for T-26 manifest
