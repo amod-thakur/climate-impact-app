@@ -661,6 +661,52 @@ Write integration tests covering the core user flows:
 
 ---
 
+## Epic 8: Deployment
+
+### T-33 · Publish to GitHub Pages
+
+**Priority:** P1
+**Dependencies:** T-25, T-26, T-27
+**Description:**
+Deploy the production build to GitHub Pages. Configure Vite's `base` option for
+the `/leetcode-assistant/` subpath. Create a GitHub Actions workflow that builds
+and deploys on push to `main`. Handle SPA routing (client-side routes must not
+404 on direct navigation) by adding a 404.html fallback. Update manifest
+`start_url` and service worker scope to work under the subpath.
+
+**Implementation Details:**
+
+1. **Vite base path** — Set `base: '/leetcode-assistant/'` in `vite.config.ts`
+   so all asset URLs are prefixed correctly for the GH Pages subpath.
+2. **GitHub Actions workflow** — Create `.github/workflows/deploy.yml`:
+   - Trigger on push to `main`
+   - Use `actions/setup-node` + `npm ci` + `npm run build`
+   - Deploy `dist/` to `gh-pages` branch using `peaceiris/actions-gh-pages` (or
+     the official `actions/deploy-pages`)
+3. **SPA fallback** — Copy `dist/index.html` to `dist/404.html` in the build
+   step so GitHub Pages serves the SPA shell for all routes (e.g., `/build`,
+   `/history`, `/settings`).
+4. **Manifest & SW scope** — Update `public/manifest.json` `start_url` to
+   `/leetcode-assistant/` and ensure the service worker scope covers the subpath.
+5. **Router base path** — Ensure Wouter's routing works correctly under the
+   `/leetcode-assistant/` base path (configure `base` prop or `hook` if needed).
+
+**Acceptance Criteria:**
+
+- [ ] `vite.config.ts` has `base: '/leetcode-assistant/'`
+- [ ] `.github/workflows/deploy.yml` exists and is valid
+- [ ] Workflow triggers on push to `main` branch
+- [ ] `npm run build` produces correct asset paths for subpath hosting
+- [ ] `404.html` copied from `index.html` for SPA route fallback
+- [ ] `manifest.json` `start_url` updated to `/leetcode-assistant/`
+- [ ] Service worker scope covers `/leetcode-assistant/`
+- [ ] All client-side routes (`/build`, `/history`, `/settings`) work on direct navigation
+- [ ] App accessible at `https://amod-thakur.github.io/leetcode-assistant/`
+- [ ] PWA install still works from the deployed URL
+- [ ] All existing tests still pass after base path changes
+
+---
+
 ## Dependency Graph
 
 ```
@@ -695,6 +741,9 @@ T-01 (scaffold)
 
 Quality (after all features):
 T-28 (a11y), T-29 (mobile), T-30 (browsers), T-31 (performance), T-32 (tests)
+
+Deployment (after PWA):
+T-33 (GitHub Pages) ← T-25, T-26, T-27
 ```
 
 ---
@@ -722,6 +771,9 @@ Phase 6 — **PWA:**
 Phase 7 — **Quality:**
 `T-28` + `T-29` + `T-30` + `T-31` (parallel) → `T-32`
 
+Phase 8 — **Deployment:**
+`T-33` (GitHub Pages)
+
 ---
 
 ## Ticket Count Summary
@@ -735,4 +787,5 @@ Phase 7 — **Quality:**
 | 5. Settings      | 4       | 0      | 3      | 1     |
 | 6. PWA           | 3       | 0      | 2      | 1     |
 | 7. Quality       | 5       | 0      | 3      | 2     |
-| **Total**        | **32**  | **11** | **16** | **5** |
+| 8. Deployment    | 1       | 0      | 1      | 0     |
+| **Total**        | **33**  | **11** | **17** | **5** |

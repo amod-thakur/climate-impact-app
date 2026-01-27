@@ -74,6 +74,15 @@
 - 5 user flows: Explorer→Builder, portion adjust, save→history, export→import, onboarding
 - Coverage targets: hooks + utils 90%+, pages 70%+
 
+### Epic 8: Deployment (T-33)
+
+#### T-33 · Publish to GitHub Pages — P1
+- Configure `base: '/leetcode-assistant/'` in vite.config.ts
+- Create `.github/workflows/deploy.yml` (build + deploy on push to main)
+- Copy index.html → 404.html for SPA route fallback
+- Update manifest start_url and SW scope for subpath
+- Ensure Wouter routing works under `/leetcode-assistant/` base path
+
 ---
 
 ## Architecture & Key Files
