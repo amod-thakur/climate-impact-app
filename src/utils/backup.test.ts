@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach } from 'vitest'
-import { exportData, importData } from './backup'
+import { exportData, importData, parseBackup, mergeData } from './backup'
 import type { Meal } from '../types'
 
 const MEALS_KEY = 'co2-tracker-meals'
@@ -14,6 +14,15 @@ const sampleMeal: Meal = {
   ],
   total_co2e: 2.63,
   driving_km_equivalent: 10.52,
+}
+
+const sampleMeal2: Meal = {
+  id: 'meal-2',
+  date: '2025-01-16',
+  label: 'Dinner',
+  items: [{ food_item_id: 'chicken', portions: 1, co2e: 0.22 }],
+  total_co2e: 0.22,
+  driving_km_equivalent: 0.88,
 }
 
 describe('backup', () => {
@@ -115,6 +124,120 @@ describe('backup', () => {
       }
       const result = importData(JSON.stringify(backup))
       expect(result).toBe(true)
+    })
+  })
+
+  describe('parseBackup', () => {
+    it('returns a preview for valid backup JSON', () => {
+      const backup = {
+        version: 1,
+        exported_at: '2025-01-15T12:00:00Z',
+        meals: [sampleMeal, sampleMeal2],
+      }
+      const preview = parseBackup(JSON.stringify(backup))
+
+      expect(preview).not.toBeNull()
+      expect(preview!.mealCount).toBe(2)
+      expect(preview!.dateCount).toBe(2)
+      expect(preview!.dates).toEqual(['2025-01-15', '2025-01-16'])
+      expect(preview!.exportedAt).toBe('2025-01-15T12:00:00Z')
+    })
+
+    it('returns null for invalid JSON', () => {
+      expect(parseBackup('{bad json')).toBeNull()
+    })
+
+    it('returns null for invalid backup structure', () => {
+      expect(parseBackup(JSON.stringify({ foo: 'bar' }))).toBeNull()
+    })
+
+    it('returns correct dateCount when meals share a date', () => {
+      const meal2SameDate = { ...sampleMeal2, date: '2025-01-15' }
+      const backup = {
+        version: 1,
+        exported_at: '2025-01-15T12:00:00Z',
+        meals: [sampleMeal, meal2SameDate],
+      }
+      const preview = parseBackup(JSON.stringify(backup))
+
+      expect(preview!.mealCount).toBe(2)
+      expect(preview!.dateCount).toBe(1)
+    })
+
+    it('returns zero counts for empty meals array', () => {
+      const backup = {
+        version: 1,
+        exported_at: '2025-01-15T12:00:00Z',
+        meals: [],
+      }
+      const preview = parseBackup(JSON.stringify(backup))
+
+      expect(preview!.mealCount).toBe(0)
+      expect(preview!.dateCount).toBe(0)
+    })
+  })
+
+  describe('mergeData', () => {
+    it('merges new meals with existing ones', () => {
+      localStorage.setItem(MEALS_KEY, JSON.stringify([sampleMeal]))
+
+      const backup = {
+        version: 1,
+        exported_at: '2025-01-16T12:00:00Z',
+        meals: [sampleMeal2],
+      }
+      const result = mergeData(JSON.stringify(backup))
+
+      expect(result).toBe(true)
+      const stored = JSON.parse(localStorage.getItem(MEALS_KEY)!) as Meal[]
+      expect(stored).toHaveLength(2)
+      expect(stored[0].id).toBe('meal-1')
+      expect(stored[1].id).toBe('meal-2')
+    })
+
+    it('skips duplicate meals by id', () => {
+      localStorage.setItem(MEALS_KEY, JSON.stringify([sampleMeal]))
+
+      const backup = {
+        version: 1,
+        exported_at: '2025-01-16T12:00:00Z',
+        meals: [sampleMeal, sampleMeal2],
+      }
+      const result = mergeData(JSON.stringify(backup))
+
+      expect(result).toBe(true)
+      const stored = JSON.parse(localStorage.getItem(MEALS_KEY)!) as Meal[]
+      expect(stored).toHaveLength(2) // meal-1 not duplicated
+    })
+
+    it('works when localStorage is empty', () => {
+      const backup = {
+        version: 1,
+        exported_at: '2025-01-16T12:00:00Z',
+        meals: [sampleMeal, sampleMeal2],
+      }
+      const result = mergeData(JSON.stringify(backup))
+
+      expect(result).toBe(true)
+      const stored = JSON.parse(localStorage.getItem(MEALS_KEY)!) as Meal[]
+      expect(stored).toHaveLength(2)
+    })
+
+    it('rejects invalid JSON', () => {
+      expect(mergeData('{bad json')).toBe(false)
+    })
+
+    it('rejects invalid backup structure', () => {
+      expect(mergeData(JSON.stringify({ foo: 'bar' }))).toBe(false)
+    })
+
+    it('does not modify existing data on invalid input', () => {
+      localStorage.setItem(MEALS_KEY, JSON.stringify([sampleMeal]))
+
+      mergeData('{bad json')
+
+      const stored = JSON.parse(localStorage.getItem(MEALS_KEY)!) as Meal[]
+      expect(stored).toHaveLength(1)
     })
   })
 })

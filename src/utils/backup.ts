@@ -7,10 +7,17 @@
 
 import type { Meal } from '../types'
 
-interface BackupData {
+export interface BackupData {
   version: 1
   exported_at: string
   meals: Meal[]
+}
+
+export interface BackupPreview {
+  mealCount: number
+  dateCount: number
+  dates: string[]
+  exportedAt: string
 }
 
 const MEALS_STORAGE_KEY = 'co2-tracker-meals'
@@ -29,7 +36,28 @@ export function exportData(): string {
   return JSON.stringify(backup, null, 2)
 }
 
-/** Validate and import a JSON backup string into localStorage. Returns true on success. */
+/**
+ * Parse and validate a JSON backup string without importing.
+ * Returns a preview summary or null if invalid.
+ */
+export function parseBackup(json: string): BackupPreview | null {
+  try {
+    const data = JSON.parse(json) as unknown
+    if (!isValidBackup(data)) return null
+
+    const dates = [...new Set(data.meals.map((m) => m.date))].sort()
+    return {
+      mealCount: data.meals.length,
+      dateCount: dates.length,
+      dates,
+      exportedAt: data.exported_at,
+    }
+  } catch {
+    return null
+  }
+}
+
+/** Validate and import a JSON backup string into localStorage (replace mode). Returns true on success. */
 export function importData(json: string): boolean {
   try {
     const data = JSON.parse(json) as unknown
@@ -37,6 +65,29 @@ export function importData(json: string): boolean {
     if (!isValidBackup(data)) return false
 
     localStorage.setItem(MEALS_STORAGE_KEY, JSON.stringify(data.meals))
+    return true
+  } catch {
+    return false
+  }
+}
+
+/**
+ * Import a JSON backup and merge with existing meals (no duplicates by id).
+ * Returns true on success.
+ */
+export function mergeData(json: string): boolean {
+  try {
+    const data = JSON.parse(json) as unknown
+    if (!isValidBackup(data)) return false
+
+    const raw = localStorage.getItem(MEALS_STORAGE_KEY)
+    const existing: Meal[] = raw ? (JSON.parse(raw) as Meal[]) : []
+
+    const existingIds = new Set(existing.map((m) => m.id))
+    const newMeals = data.meals.filter((m) => !existingIds.has(m.id))
+    const merged = [...existing, ...newMeals]
+
+    localStorage.setItem(MEALS_STORAGE_KEY, JSON.stringify(merged))
     return true
   } catch {
     return false
