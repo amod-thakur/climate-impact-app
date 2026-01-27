@@ -1,8 +1,8 @@
 # CO2 Food Tracker — In-Progress Status
 
-**Branch:** `claude/implement-pwa-offline-Y5wcd`
+**Branch:** `claude/add-ghpages-task-nzRJs`
 **Last updated:** 2026-01-27
-**Last commit:** (pending) — T-25..T-27: Implement Epic 6 PWA & Offline
+**Last commit:** T-33: Implement Epic 8 GitHub Pages Deployment
 
 ---
 
@@ -47,6 +47,9 @@
 - **T-26 — Web app manifest** (`public/manifest.json`): Created manifest with app name, short name, description, standalone display mode, theme color (#16a34a), background color (#ffffff), start_url (/), icons (192x192, 512x512); generated PNG icons from SVG using sharp library; updated index.html with manifest link, theme-color meta tag, apple-touch-icon, and description meta tag
 - **T-27 — Offline verification** Build tested successfully; service worker generated with 10 precached entries (635.09 KiB total); all 169 tests passing; ESLint clean; app shell and static assets cached for offline use
 
+### Epic 8: Deployment (T-33) — DONE
+- **T-33 — Publish to GitHub Pages**: Configured `base: '/leetcode-assistant/'` in `vite.config.ts`; created `.github/workflows/deploy.yml` using `actions/deploy-pages@v4` (triggers on push to `main`); copies `index.html` → `404.html` for SPA client-side route fallback; updated `manifest.json` `start_url` and icon paths to `/leetcode-assistant/`; service worker scope set to `/leetcode-assistant/`; wrapped App with `<Router base="/leetcode-assistant">` in `main.tsx` for Wouter subpath routing; all 169 tests passing; ESLint clean; build successful
+
 ---
 
 ## Remaining Work
@@ -73,15 +76,6 @@
 #### T-32 · Integration test suite — P2
 - 5 user flows: Explorer→Builder, portion adjust, save→history, export→import, onboarding
 - Coverage targets: hooks + utils 90%+, pages 70%+
-
-### Epic 8: Deployment (T-33)
-
-#### T-33 · Publish to GitHub Pages — P1
-- Configure `base: '/leetcode-assistant/'` in vite.config.ts
-- Create `.github/workflows/deploy.yml` (build + deploy on push to main)
-- Copy index.html → 404.html for SPA route fallback
-- Update manifest start_url and SW scope for subpath
-- Ensure Wouter routing works under `/leetcode-assistant/` base path
 
 ---
 
@@ -140,11 +134,12 @@ src/
 
 ## Notes for Next Session
 1. **Start with Epic 7** (T-28 → T-32) — Quality & Polish
-2. Epic 6 is fully complete — PWA configured with service worker, manifest, and icons
-3. PWA features implemented:
-   - Service worker with Workbox precaching (10 entries, 635 KiB)
-   - CacheFirst strategy for app shell
-   - Manifest with 192x192 and 512x512 PNG icons (theme color #16a34a)
-   - All static assets cached for offline use
-4. All 169 tests passing, ESLint clean, build successful
-5. Generated files: `generate-icons.mjs` (icon generation script), `public/` directory with manifest and icons
+2. Epic 8 (T-33) is complete — GitHub Pages deployment configured
+3. Deployment setup:
+   - `base: '/leetcode-assistant/'` in `vite.config.ts`
+   - `.github/workflows/deploy.yml` — auto-deploys on push to `main`
+   - `404.html` SPA fallback for client-side routes
+   - `<Router base="/leetcode-assistant">` in `main.tsx` for Wouter subpath routing
+   - `manifest.json` and service worker scoped to `/leetcode-assistant/`
+4. To enable: go to repo Settings → Pages → Source: GitHub Actions
+5. All 169 tests passing, ESLint clean, build successful
