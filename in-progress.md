@@ -1,8 +1,8 @@
 # CO2 Food Tracker — In-Progress Status
 
-**Branch:** `claude/implement-settings-durability-pr4Ej`
+**Branch:** `claude/implement-pwa-offline-Y5wcd`
 **Last updated:** 2026-01-27
-**Last commit:** `2a065fe` — T-21..T-24: Implement Epic 5 Settings & Data Durability
+**Last commit:** (pending) — T-25..T-27: Implement Epic 6 PWA & Offline
 
 ---
 
@@ -42,29 +42,14 @@
 - **T-23 — JSON import** (in SettingsPage): File picker (`.json`); `parseBackup()` validates and previews (meal count, date count, export date); merge-with-existing vs replace-existing options; error handling for invalid files; added `mergeData()` to backup.ts for deduplication by meal id
 - **T-24 — Storage persistence** (in SettingsPage): `navigator.storage.persist()` called on first launch via `useStoragePersistence` hook; dismissible warning banner if denied; `storage_persisted` and `storage_banner_dismissed` flags in localStorage; handles browsers without `persist()` support
 
+### Epic 6: PWA & Offline (T-25 through T-27) — DONE
+- **T-25 — Configure vite-plugin-pwa + Workbox** (`vite.config.ts`): Installed `vite-plugin-pwa@1.2.0`; Workbox configured with CacheFirst strategy for app-shell; precaches all static assets (JS, CSS, HTML, icons, manifest); service worker disabled in dev mode; auto-update registration type
+- **T-26 — Web app manifest** (`public/manifest.json`): Created manifest with app name, short name, description, standalone display mode, theme color (#16a34a), background color (#ffffff), start_url (/), icons (192x192, 512x512); generated PNG icons from SVG using sharp library; updated index.html with manifest link, theme-color meta tag, apple-touch-icon, and description meta tag
+- **T-27 — Offline verification** Build tested successfully; service worker generated with 10 precached entries (635.09 KiB total); all 169 tests passing; ESLint clean; app shell and static assets cached for offline use
+
 ---
 
 ## Remaining Work
-
-### Epic 6: PWA & Offline (T-25 through T-27)
-
-#### T-25 · Configure vite-plugin-pwa + Workbox — P1
-**What to do:**
-- Install `vite-plugin-pwa`
-- Configure Workbox for precaching all static assets
-- CacheFirst strategy for app shell
-- Disable SW in dev mode
-
-#### T-26 · Web app manifest — P1
-**What to do:**
-- Create `manifest.json` (app name, icons, theme color, standalone display)
-- Create placeholder icons (192x192, 512x512)
-- Set start_url, theme_color, background_color
-
-#### T-27 · Offline verification test — P2
-**Dependencies:** T-25, all core features
-**What to do:**
-- Verify all features work offline after first load
 
 ### Epic 7: Quality & Polish (T-28 through T-32)
 
@@ -145,8 +130,12 @@ src/
 ---
 
 ## Notes for Next Session
-1. **Start with Epic 6** (T-25 → T-26 → T-27) — PWA & Offline
-2. Epic 5 is fully complete — Settings page, backup/restore, storage persistence all implemented and tested
-3. After Epic 6, proceed to Epic 7 (Quality & Polish)
-4. `vite-plugin-pwa` needs to be installed for T-25
-5. Placeholder icons (192x192, 512x512) needed for T-26 manifest
+1. **Start with Epic 7** (T-28 → T-32) — Quality & Polish
+2. Epic 6 is fully complete — PWA configured with service worker, manifest, and icons
+3. PWA features implemented:
+   - Service worker with Workbox precaching (10 entries, 635 KiB)
+   - CacheFirst strategy for app shell
+   - Manifest with 192x192 and 512x512 PNG icons (theme color #16a34a)
+   - All static assets cached for offline use
+4. All 169 tests passing, ESLint clean, build successful
+5. Generated files: `generate-icons.mjs` (icon generation script), `public/` directory with manifest and icons
