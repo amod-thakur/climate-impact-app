@@ -2,20 +2,20 @@
   "name": "CO2 Food Tracker",
   "short_name": "CO2 Tracker",
   "description": "Track the carbon footprint of your meals with Canadian food data",
-  "start_url": "/",
+  "start_url": "/leetcode-assistant/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#16a34a",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "/leetcode-assistant/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icon-512.png",
+      "src": "/leetcode-assistant/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
