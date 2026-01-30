@@ -74,15 +74,24 @@
 - **Fixability:** Very Easy (1-line code fix for main issue)
 - **Date Completed:** Jan 30, 2026
 
+#### Scenario #5: Duplicate Food Items
+- **Location:** `tests/scenario-5/`
+- **Files:**
+  - `TEST_SCENARIO_5_REPORT.md` - Full analysis (11.3 KB)
+  - `SCENARIO_5_VISUAL_SUMMARY.md` - Visual breakdown (13.7 KB)
+  - `test-scenario-5.js` - Executable tests (12.8 KB)
+- **Status:** ✓ MOSTLY WELL-DESIGNED (Merge pattern correct, storage validation gap)
+- **Severity:** LOW-MEDIUM
+- **Defects Found:** 2
+  1. No Validation When Loading Merged Items from localStorage
+  2. UI/UX Mismatch: User Expects Separate Entries, Gets Merged
+- **Impact:** Storage can be corrupted via manual edit; merge behavior not obvious to users
+- **Fixability:** Easy (add validation function + UI hint)
+- **Date Completed:** Jan 30, 2026
+
 ---
 
 ### ⏳ PENDING
-
-#### Scenario #5: Duplicate Food Items
-- **Description:** Add same food twice with different portions
-- **Expected Risk:** Merge failure, duplicate suggestions, miscalculations
-- **Test Method:** TBD
-- **Status:** Not Started
 
 #### Scenario #6: Plate Balance Edge Cases
 - **Description:** Build meal with only one food category
@@ -155,13 +164,13 @@
 ## TESTING PROGRESS
 
 ```
-Progress: ████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 36% (4/11)
+Progress: █████████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 45% (5/11)
 
 Scenario 1:  ████████████████████████████████████████████░░ ✓ DONE
 Scenario 2:  ████████████████████████████████████████████░░ ✓ DONE
 Scenario 3:  ████████████████████████████████████████████░░ ✓ DONE
 Scenario 4:  ████████████████████████████████████████████░░ ✓ DONE
-Scenario 5:  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ⏳ TODO
+Scenario 5:  ████████████████████████████████████████████░░ ✓ DONE
 Scenario 6:  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ⏳ TODO
 Scenario 7:  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ⏳ TODO
 Scenario 8:  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ⏳ TODO
@@ -177,11 +186,11 @@ Scenario 11: ░░░░░░░░░░░░░░░░░░░░░░�
 | Metric | Value | Status |
 |--------|-------|--------|
 | Total Scenarios | 11 | - |
-| Completed | 4 | 36% |
-| Pending | 7 | 64% |
-| Defects Found | 11 | ⚠️ |
+| Completed | 5 | 45% |
+| Pending | 6 | 55% |
+| Defects Found | 13 | ⚠️ |
 | Defects Fixed | 0 | - |
-| Well-Designed Areas | 1 (S3) | ✓ |
+| Well-Designed Areas | 2 (S3, S5-merge) | ✓ |
 | Avg Analysis Time | ~90 min per scenario | - |
 | App Status | Running | ✓ |
 
@@ -288,15 +297,22 @@ tests/
 | S4-D3 | Empty Meals Skew Statistics | MEDIUM | OPEN |
 | S4-D4 | Chart Confusion (0 kg values) | LOW | OPEN |
 
-### Scenario #3, #5-11 Defects
+### Scenario #5 Defects
+| ID | Title | Severity | Status |
+|----|-------|----------|--------|
+| S5-D1 | No Validation When Loading Merged Items from localStorage | MEDIUM | OPEN |
+| S5-D2 | UI/UX Mismatch: User Expects Separate Entries, Gets Merged | LOW | OPEN |
+
+### Scenario #3, #6-11 Defects
 - Scenario #3: No defects (0)
-- Scenarios #5-11: TBD (pending test completion)
+- Scenario #5: See above (2 defects)
+- Scenarios #6-11: TBD (pending test completion)
 
 ---
 
 ## SUMMARY
 
-**Current Findings (4/11 Scenarios Complete):**
+**Current Findings (5/11 Scenarios Complete - 45%):**
 
 1. **Scenario #1:** Input validation vulnerability
    - NaN propagation, missing type guards, no localStorage validation
@@ -321,45 +337,55 @@ tests/
    - Risk: MEDIUM (normal users protected, DevTools access vulnerable)
    - Defects: 4
 
+5. **Scenario #5:** Duplicate food items ✓ MOSTLY WELL-DESIGNED
+   - Merge-on-duplicate pattern is intentional and correct
+   - Portions increment properly with maximum clamping
+   - Swap suggestions scale correctly
+   - Storage validation gap (matches S1, S4 pattern)
+   - UI/UX expectation mismatch (low severity)
+   - Risk: LOW-MEDIUM (merge pattern is correct)
+   - Defects: 2
+
 **Overall Risk Pattern:**
 The app has inconsistent defensive programming:
 - **Input layer:** Good (dropdowns, clamping)
-- **Display-based storage:** Excellent (prevents accumulation)
-- **State management:** Weak (no runtime type guards)
+- **State management:** Weak (no runtime type guards, no data validation on load)
 - **Display rendering:** Weak (no overflow guards)
+- **Display-based storage:** Excellent (prevents floating-point accumulation)
+- **Merge pattern:** Excellent (intentional, well-designed)
 
-**Common Issues (S1, S2 & S4):**
+**Recurring Issues (S1, S4, S5):**
 - No runtime type validation (relies on TypeScript alone)
-- No code-level validation in critical functions
-- No display guards for edge cases
-- Missing maximum value constraints
-- No validation when loading from localStorage
+- No validation when loading from localStorage (affects storage integrity)
+- Missing maximum value constraints in some areas (S2)
+- No code-level validation in critical functions (S4)
 
-**Exemplary Pattern (S3):**
-- Uses display values (toFixed) for storage
-- Prevents floating-point accumulation errors
-- Modern approach to decimal handling
+**Exemplary Patterns (S3, S5):**
+- Uses display values (toFixed) for storage (S3)
+- Merge-on-duplicate prevents duplicate data (S5)
+- Both prevent accumulation and data integrity errors
 
-**Recommendation:** Add defensive programming patterns:
-1. Runtime type guards in reducers (S1 issue)
-2. Code validation in handleSave() (S4 issue)
-3. Display component overflow handling (S2 issue)
-4. Maximum value constraints (S2 issue)
-5. Data validation on load from storage (S1, S4 issues)
+**Recommendation:** Add defensive programming patterns (Priority by impact):
+1. **CRITICAL:** Data validation on load from storage (S1-D2, S4-D2, S5-D1)
+2. **HIGH:** Runtime type guards in reducers (S1 issue)
+3. **HIGH:** Code validation in handleSave() (S4-D1)
+4. **MEDIUM:** Display component overflow handling (S2 issue)
+5. **LOW:** UI hints for merge behavior (S5-D2)
 
 **MVP Release Readiness:**
 - UI layer: Good (dropdown/selections protect normal users)
-- Calculation layer: Good (displays prevent floating-point errors)
+- Calculation layer: Excellent (displays prevent floating-point errors)
+- Merge logic: Excellent (prevents duplicates)
 - State layer: Weak (needs type guards)
+- Storage layer: Weak (needs validation on load)
 - Display layer: Weak (needs overflow guards)
-- Storage layer: Weak (needs validation)
 
-**Overall Assessment:** 3/4 areas with defects, 1/4 well-designed
+**Overall Assessment:** 3 vulnerable scenarios (S1, S2, S4), 2 well-designed areas (S3 float, S5 merge)
 
 ---
 
 *Last Updated: Jan 30, 2026*
-*Testing Progress: 36% (4/11 Scenarios)*
-*Total Defects Found: 11 (in 3 vulnerable scenarios)*
-*Well-Designed Areas: 1 (exemplary floating-point handling)*
-*Status: IN PROGRESS - Halfway through test suite*
+*Testing Progress: 45% (5/11 Scenarios)*
+*Total Defects Found: 13 (in 3 vulnerable scenarios, 2 well-designed areas)*
+*Well-Designed Areas: 2 (exemplary floating-point handling + merge-on-duplicate)*
+*Status: IN PROGRESS - Nearly halfway through test suite*
