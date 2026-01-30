@@ -47,8 +47,11 @@
 - **T-26 — Web app manifest** (`public/manifest.json`): Created manifest with app name, short name, description, standalone display mode, theme color (#16a34a), background color (#ffffff), start_url (/), icons (192x192, 512x512); generated PNG icons from SVG using sharp library; updated index.html with manifest link, theme-color meta tag, apple-touch-icon, and description meta tag
 - **T-27 — Offline verification** Build tested successfully; service worker generated with 10 precached entries (635.09 KiB total); all 169 tests passing; ESLint clean; app shell and static assets cached for offline use
 
+### Epic 7: Quality & Polish — T-32 DONE
+- **T-32 — Integration test suite**: Created comprehensive integration tests covering 5 core user flows (Explorer→Builder, portion adjustment, save→history, export→import, onboarding); 15 new tests added; total tests now 184; coverage targets met (hooks 95%+, utils 90%+, pages 81%+); ESLint clean; build successful
+
 ### Epic 8: Deployment (T-33) — DONE
-- **T-33 — Publish to GitHub Pages**: Configured `base: '/leetcode-assistant/'` in `vite.config.ts`; created `.github/workflows/deploy.yml` using `actions/deploy-pages@v4` (triggers on push to `main`); copies `index.html` → `404.html` for SPA client-side route fallback; updated `manifest.json` `start_url` and icon paths to `/leetcode-assistant/`; service worker scope set to `/leetcode-assistant/`; wrapped App with `<Router base="/leetcode-assistant">` in `main.tsx` for Wouter subpath routing; all 169 tests passing; ESLint clean; build successful
+- **T-33 — Publish to GitHub Pages**: Configured `base: '/leetcode-assistant/'` in `vite.config.ts`; created `.github/workflows/deploy.yml` using `actions/deploy-pages@v4` (triggers on push to `main`); copies `index.html` → `404.html` for SPA client-side route fallback; updated `manifest.json` `start_url` and icon paths to `/leetcode-assistant/`; service worker scope set to `/leetcode-assistant/`; wrapped App with `<Router base="/leetcode-assistant">` in `main.tsx` for Wouter subpath routing; all 184 tests passing; ESLint clean; build successful
 
 ---
 
@@ -73,9 +76,9 @@
 - Critical path < 70 KB gzipped
 - Recharts is already lazy-loaded (confirmed in build output as separate chunk)
 
-#### T-32 · Integration test suite — P2
+#### T-32 · Integration test suite — DONE
 - 5 user flows: Explorer→Builder, portion adjust, save→history, export→import, onboarding
-- Coverage targets: hooks + utils 90%+, pages 70%+
+- Coverage targets: hooks 95%+, utils 90%+, pages 81%+ (all targets met)
 
 ---
 
@@ -111,7 +114,7 @@ src/
 - Vitest 4.0 + @testing-library/react 16.3
 
 ### Test Status
-- 169 tests passing across 14 test files
+- 184 tests passing across 15 test files (15 new integration tests added)
 - `npm run lint` — clean
 - `npm run build` — clean (2 chunks, HistoryChart in separate chunk)
 
