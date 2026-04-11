@@ -2,7 +2,7 @@
 
 Track the carbon footprint of your meals using Canadian food emission data. Built with React 19, TypeScript, and Tailwind CSS.
 
-**Live app:** https://amod-thakur.github.io/leetcode-assistant/
+**Live app:** https://amod-thakur.github.io/climate-impact-app/
 
 ## Local Development
 
