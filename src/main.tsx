@@ -6,7 +6,7 @@ import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Router base="/leetcode-assistant">
+    <Router base="/climate-impact-app">
       <App />
     </Router>
   </StrictMode>,
